@@ -58,12 +58,15 @@ document.addEventListener("keyup", function(event) {
     
     if (foundIndex !== -1) {
     //replaces underscore with current letter
-    console.log(correctGuesses, foundIndex, keyPressed);
-    currentWord = correctGuesses.splice(foundIndex, 1, keyPressed);
+
+    correctGuesses.splice(foundIndex, 1, keyPressed);
+
+
      //displays correct letter guesses to DOM
      correctGuessedNode.innerHTML = correctGuesses.join(" ");
     }
    
+
 
     //add key press to already guessed array
     guesses = guesses.concat([keyPressed]);

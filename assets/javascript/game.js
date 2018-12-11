@@ -6,12 +6,14 @@ var psyGame = {
 
 
 }
-var currentWord, guesses = [], totalNumberOfGuesses = 0, correctGuesses = [];
+var currentWord, guesses = [], totalNumberOfGuesses = 0, correctGuesses = [], currentWordArray;
 var winsCounter = 0;
 //outlets
 var guessesRemainingNode = document.querySelector(".guessesRemaining");
 var guessesNode = document.querySelector(".alreadyGuessed");
 var correctGuessedNode = document.querySelector(".word");
+var winsNode = document.querySelector(".wins");
+
 
 function restart() {   
     console.log("restart");
@@ -19,6 +21,10 @@ function restart() {
     currentWord = psyGame.words[Math.floor(Math.random() * psyGame.words.length)];
     console.warn(currentWord);
     // document.querySelector(".word").innerHTML = currentWord;
+
+
+    //splits current word into an array
+    currentWordArray = currentWord.split("");
 
     //correct Guesses
     correctGuesses = currentWord.split("").map((word) => "_");
@@ -37,11 +43,17 @@ function restart() {
 
     //updates guesses DOM node
     guessesNode.innerHTML = guesses;
+
+    winsNode.innerHTML = winsCounter;
 }
 
 restart();
 
-//Add global keyup event listener to capture guessed letters
+
+
+var testForLetters = /^[a-zA-Z]+$/;
+
+//Add global keyup event  listener to capture guessed letters
 document.addEventListener("keyup", function(event) {
     //check to see if user is out of gueses
     if (totalNumberOfGuesses <= 0) {
@@ -51,33 +63,47 @@ document.addEventListener("keyup", function(event) {
     }
 
     var keyPressed = event.key;
-
+    var foundIndex
 
     //check to see if guessed letter is in current word
-    var foundIndex = currentWord.indexOf(keyPressed);
-    
-    if (foundIndex !== -1) {
-    //replaces underscore with current letter
 
-    correctGuesses.splice(foundIndex, 1, keyPressed);
-
-
-     //displays correct letter guesses to DOM
-     correctGuessedNode.innerHTML = correctGuesses.join(" ");
-    }
+    currentWordArray.map(function (currentLetter, currentIndex, originalArray) { 
+        
+        if (currentLetter != keyPressed) return 
+                
+        // }
+        correctGuesses.splice(currentIndex, 1, keyPressed);
+        //displays correct letter guesses to DOM
+        correctGuessedNode.innerHTML = correctGuesses.join(" ");
+        
+    })
    
 
 
     //add key press to already guessed array
+    if (keyPressed.match(testForLetters)) {
     guesses = guesses.concat([keyPressed]);
-
+    
     //update DOM already guessed with current already guessed array
     guessesNode.innerHTML = guesses;
-
+    
     //reduces the guesses counter
     guessesRemainingNode.innerHTML = --(totalNumberOfGuesses);
+    }
 
+    if (totalNumberOfGuesses === 0) {
+        alert("You lose!")
+    }
+
+    if (correctGuesses.join("") === currentWord) {
+        winsCounter++;
+        alert("You win!");
+    }
+    
+    winsNode.innerHTML = winsCounter;
 })
+
+
 
 // Picks the first word and prints to top of the page
 

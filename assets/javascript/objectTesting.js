@@ -9,7 +9,7 @@ var data = {
     currentWordArray: [], 
     availableLetters : [], 
     winsCounter : 0,
-    availableLetters : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    availableLetters : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
 
 }
 
@@ -28,6 +28,21 @@ var view = {
 }
 
 
+function winNotice() {
+    setTimeout (function() {
+        document.querySelector(".winNotice").style.display = "none"; }, 7000); 
+}
+
+function loseNotice() {
+    setTimeout (function() {
+        document.querySelector(".loseNotice").style.display = "none"; }, 7000);
+    }
+
+function michaelButton() {
+    setTimeout (function() {
+        document.querySelector(".michaelScott").style.display = "none"; }, 10000);
+}
+
 //resets and initializes the game
 function restart() {   
     // select a random word from list of words
@@ -42,7 +57,7 @@ function restart() {
     var lettersExpression = /[a-z]/
 
     
-    //Replaces letters on 
+    //Replaces characters with underscores if not a space
     data.correctGuesses = data.currentWordArray.map( function (letter) {
         if (letter === " ") return " ";
         return "_";
@@ -68,12 +83,15 @@ function restart() {
     // "winsNode".innerHTML = data.winsCounter;
     view.update("winsNode", data.winsCounter);
 
-
 }
 
 restart();
 
-
+function shutUpMichael() {
+    document.querySelector(".no").pause();
+    document.querySelector(".no").currentTime = 0;
+    document.querySelector(".michaelScott").style.display = "none";
+}
 
 
 var keyPressed;
@@ -102,7 +120,7 @@ document.addEventListener("keyup", function(event) {
             
         //update DOM already guessed with current already guessed array
         // "guessedNode".innerHTML = data.guesses;
-        view.update("guessedNode", data.guesses);
+        view.update("guessedNode", data.guesses.join(" "));
         
         //reduces the guesses counter
         // "guessesRemainingNode".innerHTML = --(data.totalNumberOfGuesses);
@@ -110,26 +128,40 @@ document.addEventListener("keyup", function(event) {
 
         //replace found keypress with $#%@&^
         data.availableLetters[currentIndex] = "$#%@&*^";
+
+    
     })
 
     //alerts "You lose!" and calls restart function at 0 guesses left
     if (data.totalNumberOfGuesses === 0) {
-        alert("You lose!")
+        loseNotice();
+        michaelButton();
         restart();
+        document.querySelector(".no").play();
+        document.querySelector(".michaelScott").style.display = "inline-block";
+        document.querySelector(".loseNotice").innerHTML = `You lose :(   The correct word was ${data.currentWord}`;
+        document.querySelector(".winNotice").style.display = "none";
+        document.querySelector(".loseNotice").style.display = "block";
     }
 
     //alerts win statement, updates win counter, and calls restart function upon guessing correctly
     if (data.correctGuesses.join("") === data.currentWord) {
+        document.querySelector(".wow").play();
         // "correctGuessesNode".innerHTML = data.currentWord;
         view.update("correctGuessesNode", data.currentWord);
         ++data.winsCounter;
-        alert(`You guessed the word correctly: ${data.currentWord}`);
+        document.querySelector(".winNotice").innerHTML = `You won!  The correct word was ${data.currentWord}`;
+        document.querySelector(".loseNotice").style.display = "none";
+        document.querySelector(".winNotice").style.display = "block";
+        winNotice();
         restart ();
+        
     }
 
     //updates win counter on screen
     // "winsNode".innerHTML = data.winsCounter;
     view.update("winsNode", data.winsCounter);
+
 })
 
 

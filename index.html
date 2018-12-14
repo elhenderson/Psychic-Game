@@ -11,11 +11,14 @@
 </head>
 <body>
     <h1>HANGMAN</h1>
+    <p id="sound" class="winNotice"></p>
+    <p id="sound" class="loseNotice"></p>
     <h2>Cooking Techniques</h2>
+    <button onclick="shutUpMichael()" class="michaelScott">Shut up Michael!</button>
     <div class="border">
     <button onclick="restart()" class="newWord">Press here to restart!</button>
     <div class="word"></div>
-    <p class="pressKey">Press any key to get started!</p>
+    <p class="pressKey">Press any letter key to get started!</p>
     <div>Wins</div>
     <a class = "wins"></a>
     <br>
@@ -29,6 +32,8 @@
     <div class="demo">  </div>
     <br>
     </div>
+    <audio class="wow" src="assets/sounds/The Best Owen Wilson Wow.mp3" type="audio/mpeg"></audio>
+    <audio class="no" src="assets/sounds/The Office- Michael Scott No God No.mp3" type="audio/mpeg"></audio>
     <script src="assets/javascript/game.js"></script>
 </body>
 </html>

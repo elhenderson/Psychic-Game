@@ -37,10 +37,10 @@ function loseNotice() {
         document.querySelector(".loseNotice").style.display = "none"; }, 7000);
     }
 
-function michaelButton() {
-    setTimeout (function() {
-        document.querySelector(".michaelScott").style.display = "none"; }, 10000);
-}
+// function michaelButton() {
+//     setTimeout (function() {
+//         document.querySelector(".michaelScott").style.display = "none"; }, 10000);
+// }
 
 //resets and initializes the game
 function restart() {   
@@ -136,7 +136,7 @@ document.addEventListener("keyup", function(event) {
     //alerts "You lose!" and calls restart function at 0 guesses left
     if (data.totalNumberOfGuesses === 0) {
         loseNotice();
-        michaelButton();
+        // michaelButton();
         restart();
         document.querySelector(".no").play();
         document.querySelector(".michaelScott").style.display = "inline-block";

@@ -88,11 +88,11 @@ function restart() {
 
 restart();
 
-function shutUpMichael() {
-    document.querySelector(".no").pause();
-    document.querySelector(".no").currentTime = 0;
-    document.querySelector(".michaelScott").style.display = "none";
-}
+// function shutUpMichael() {
+//     document.querySelector(".no").pause();
+//     document.querySelector(".no").currentTime = 0;
+//     document.querySelector(".michaelScott").style.display = "none";
+// }
 
 
 var keyPressed;
@@ -135,22 +135,23 @@ document.addEventListener("keyup", function(event) {
 
     //alerts "You lose!" and calls restart function at 0 guesses left
     if (data.totalNumberOfGuesses === 0) {
+        document.querySelector(".loseNotice").innerHTML = `You lose :(   The correct word was ${data.currentWord}`;
         loseNotice();
         // michaelButton();
         restart();
-        document.querySelector(".no").play();
-        document.querySelector(".michaelScott").style.display = "inline-block";
-        document.querySelector(".loseNotice").innerHTML = `You lose :(   The correct word was ${data.currentWord}`;
+        // document.querySelector(".no").play();
+        // document.querySelector(".michaelScott").style.display = "inline-block";
+
         document.querySelector(".winNotice").style.display = "none";
         document.querySelector(".loseNotice").style.display = "block";
     }
 
     //alerts win statement, updates win counter, and calls restart function upon guessing correctly
     if (data.correctGuesses.join("") === data.currentWord) {
-        document.querySelector(".wow").play();
+        // document.querySelector(".wow").play();
         // "correctGuessesNode".innerHTML = data.currentWord;
         view.update("correctGuessesNode", data.currentWord);
-        ++data.winsCounter;
+        data.winsCounter++;
         document.querySelector(".winNotice").innerHTML = `You won!  The correct word was ${data.currentWord}`;
         document.querySelector(".loseNotice").style.display = "none";
         document.querySelector(".winNotice").style.display = "block";
